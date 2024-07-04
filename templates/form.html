@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap">
+
+    
+    <style>
+        :root {
+            --primary-color: #898484; 
+            --accent-color: #464645; 
+            --neutral-color: #f8f9fa; 
+        }
+
+        body {
+            background-color: var(--neutral-color);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .navbar .container {
+            min-height: 80px;
+        }
+        .navbar img {
+            max-width: 50px;
+        }
+        .navbar .navbar-nav .nav-link.active,
+        .navbar .navbar-nav .nav-link:focus,
+        .navbar .navbar-nav .nav-link:hover {
+            color: #1BB6F1;
+        }
+        .navbar p {
+            color: #008EC5;
+        }
+
+        h1, h2, h5 {
+            color: var(--primary-color);
+        }
+
+        .btn-primary {
+            background-color: #008EC5;
+            border-color: #008EC5;
+            padding: 12px 24px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .btn-primary:hover {
+            background-color: #008EC5;
+            border-color: #008EC5;
+        }
+
+        .bottom-center {
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Styling for radio buttons and labels */
+        .form-group label {
+            background-color: #008EC5;
+            color: white; 
+            cursor: pointer;
+            text-align: center;
+            padding: 13px;
+            border-radius: 10px;
+            width: 200px;
+            height: 50px;
+            transition: 0.3s; /* Add transition for a smooth color change */
+        }
+
+        /* Styling for the selected radio button label */
+        .form-group label.selected {
+            background: #808080 !important; /* Grey color when selected */
+        }
+
+        /* Hide the actual radio buttons */
+        input[type="radio"] {
+            display: none;
+        }
+
+        /* Styling for the file input label */
+        .form-group2 label {
+            color: var(--primary-color);
+        }
+        .container{
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+        <a class="navbar-brand d-flex" href="#">
+            <img class="pe-2" src="{{ url_for('static', filename='images/logo.png') }}" alt="">
+            <p class="mt-2 fw-bold" >BoneX Diagnosis</p>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main" aria-controls="main" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="main">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-bold fs-5">
+                <li class="nav-item">
+                    <a class="p-2 p-lg-3 nav-link" aria-current="page" href="{{ url_for('index') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="p-2 p-lg-3 nav-link" href="#">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="p-2 p-lg-3 nav-link" href="{{ url_for('information') }}">About</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </nav>
+
+    <!-- Main content container -->
+    <div class="container mt-5 mb-5">
+        <!-- Form for image prediction -->
+        <form method="POST" action="/predict" enctype="multipart/form-data" id="prediction">
+            <!-- Row for radio buttons -->
+            <div class="row ms-5">
+                <div class="col-md-4 col mb-sm-3">
+                    <!-- Radio button for Spine model -->
+                    <div class="form-group mb-4">
+                        <input type="radio" name="model_type" id="model_type1" value="model1">
+                        <label for="model_type1">Spine</label>
+                    </div>
+                    <!-- Radio button for Pelvis model -->
+                    <div class="form-group mb-4">
+                        <input type="radio" name="model_type" id="model_type2" value="model2">
+                        <label for="model_type2">Pelvis</label>
+                    </div>
+                    <!-- Radio button for Chest model -->
+                    <div class="form-group">
+                        <input type="radio" name="model_type" id="model_type3" value="model3">
+                        <label for="model_type3">Chest</label>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-sm-3">
+                    <!-- Radio button for Elbow model -->
+                    <div class="form-group mb-4">
+                        <input type="radio" name="model_type" id="model_type4" value="model4">
+                        <label for="model_type4">Elbow</label>
+                    </div>
+                    <!-- Radio button for Finger model -->
+                    <div class="form-group mb-4">
+                        <input type="radio" name="model_type" id="model_type5" value="model5">
+                        <label for="model_type5">Finger</label>
+                    </div>
+                    <!-- Radio button for Forearm model -->
+                    <div class="form-group">
+                        <input type="radio" name="model_type" id="model_type6" value="model6">
+                        <label for="model_type6">Forearm</label>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-sm-3">
+                    <!-- Radio button for Hand model -->
+                    <div class="form-group mb-4">
+                        <input type="radio" name="model_type" id="model_type7" value="model7">
+                        <label for="model_type7">Hand</label>
+                    </div>
+                    <!-- Radio button for Shoulder model -->
+                    <div class="form-group mb-4">
+                        <input type="radio" name="model_type" id="model_type8" value="model8">
+                        <label for="model_type8">Shoulder</label>
+                    </div>
+                    <!-- Radio button for Wrist model -->
+                    <div class="form-group">
+                        <input type="radio" name="model_type" id="model_type9" value="model9">
+                        <label for="model_type9">Wrist</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row for file input -->
+            <div class="form-content d-flex justify-content-between">
+                <div class="form-group2">
+                    <!-- File input label -->
+                    <label for="file" class="mt-3 mb-3 fs-5 fw-bold">Upload Image:</label>
+                    <br>
+                    <!-- File input field -->
+                    <input type="file" name="file" id="file" accept=".jpg, .jpeg, .png" class="form-control-file">
+                </div>
+            </div>
+
+            <!-- Button for image prediction -->
+            <div id="validationMessage" class="text-danger mt-2"></div>
+            <button type="submit" class="btn btn-primary center px-5 mt-4">Predict</button>
+        </form>
+    </div>
+
+    <!-- Font Awesome script for icon functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    
+    <!-- JavaScript code for radio button functionality and color change -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get all radio buttons
+            var radioButtons = document.querySelectorAll('input[type="radio"]');
+
+            // Add change event listeners to each radio button
+            radioButtons.forEach(function(button) {
+                button.addEventListener("change", function() {
+                    // Uncheck all other radio buttons in the group
+                    radioButtons.forEach(function(btn) {
+                        if (btn !== button) {
+                            btn.checked = false;
+                        }
+                    });
+
+                    // Change the button color here
+                    changeButtonColor(button);
+                });
+            });
+
+            // Function to change the button color
+            function changeButtonColor(selectedButton) {
+                var label = selectedButton.nextElementSibling;
+
+                // Remove 'selected' class from all labels
+                radioButtons.forEach(function(btn) {
+                    var btnLabel = btn.nextElementSibling;
+                    btnLabel.classList.remove('selected');
+                });
+
+                // Add 'selected' class to the label of the selected button
+                label.classList.add('selected');
+            }
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+        // Get the form element
+        var predictionForm = document.getElementById("prediction");
+
+        // Get the validation message element
+        var validationMessage = document.getElementById("validationMessage");
+
+        // Add a submit event listener to the form
+        predictionForm.addEventListener("submit", function(event) {
+            // Get the selected radio button
+            var selectedRadioButton = document.querySelector('input[name="model_type"]:checked');
+
+            // Get the file input
+            var fileInput = document.getElementById("file");
+
+            // Check if a model is selected and a file is uploaded
+            if (!selectedRadioButton || !fileInput.files.length) {
+                // Prevent the form from being submitted
+                event.preventDefault();
+
+                // Update the validation message
+                validationMessage.textContent = "Please choose a model and upload a photo.";
+            } else {
+                // Clear the validation message if validation passes
+                validationMessage.textContent = "";
+            }
+        });
+    });
+    </script>
+</body>
+</html>

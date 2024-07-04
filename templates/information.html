@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <title>Information</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .navbar .container {
+            min-height: 80px;
+        }
+        .navbar img {
+            max-width: 50px;
+        }
+        .navbar .navbar-nav .nav-link.active,
+        .navbar .navbar-nav .nav-link:focus,
+        .navbar .navbar-nav .nav-link:hover {
+            color: #1BB6F1;
+        }
+        .navbar p {
+            color: #008EC5;
+        }
+
+        /* .definition h1,
+        .definition h4 {
+            color: linear-gradient(90deg, #02B6BF 0%, #015559 75%);
+        } */
+        .definition h1,
+        .definition h4 {
+            background: linear-gradient(90deg, #02B6BF 0%, #015559 75%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand d-flex" href="#">
+                <img class="pe-2" src="{{ url_for('static', filename='images/logo.png') }}" alt="">
+                <p class="mt-2 fw-bold" >BoneX Diagnosis</p>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main" aria-controls="main" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="main">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-bold fs-5">
+                    <li class="nav-item">
+                        <a class="p-2 p-lg-3 nav-link" aria-current="page" href="{{ url_for('index') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="p-2 p-lg-3 nav-link" href="{{ url_for('form') }}">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="p-2 p-lg-3 nav-link" href="{{ url_for('information') }}">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="definition">
+        <div class="container">
+            <div class="row justify-content-center mt-5">
+                <div class="col-md-9">
+                    <div class="well">
+                        <hr> <h1 class=" mb-4 text-center fw-bold">Welcome to our application</h1> <hr>
+                        <p class="lead text-center">We are "without Bugs" team, and in this page, we will tell you about our project.</p>
+                    </div>
+                    <div class="my-5">
+                        <hr> <h4 class="mb-4 text-center fw-bold">What is our app?</h4> <hr>
+                        <ul>
+                            <li class="text-black-40">The app is a web application that utilizes pre-trained deep learning models for image classification.</li>
+                            <li class="text-black-40">Its goal is to provide users with a simple and intuitive interface to upload an image and obtain predictions about the content of the image using different pre-trained models.</li>
+                        </ul>
+                    </div>
+                    <div class="my-5">
+                        <hr> <h4 class="mb-4 fw-bold text-center">What is the goal of our app?</h4> <hr>
+                        <ul>
+                            <li class="text-black-40">The main goal of the app is to enable users to classify images into different categories or classes.</li>
+                            <li class="text-black-40">The app supports multiple models, each trained for a specific classification task.</li>
+                            <li class="text-black-40">Users can select the desired model type from the available options.</li> 
+                            <li class="text-black-40">Once an image is uploaded and the model type is selected, the app uses the chosen pre-trained model to analyze the image and predict its class.</li> 
+                            <li class="text-black-40">The predicted class label, along with the corresponding probability, is displayed to the user.</li>
+                        </ul>    
+                        </div>
+                    <div class="my-5">
+                        <hr> <h4 class="mb-4 fw-bold text-center">What does the application contain?</h4> <hr>
+                        <p class="text-black-40 ps-3">The application contains 9 models: (spine, chest, pelvis, Elbow, Finger, Forearm, Hand, Shoulder, and Wrist).</p>                        
+                        <ul>
+                            <li class="text-black-40 fw-bold">Spine model:</li>
+                                <p>The spine model detect 3 possibilities (dislocation, fracture or normal).</p>
+                            <li class="text-black-40 fw-bold">Chest model:</li>
+                                <p>The chest model detect 4 possibilities (flail, hemothorax, pneumothorax or normal).</p>
+                            <li class="text-black-40 fw-bold">Pelvis model:</li>
+                                <p>The pelvis model detect 2 possibilities (fracture or normal).</p>
+                            <li class="text-black-40 fw-bold">Elbow model:</li>
+                                <p>The elbow model detect 2 possibilities (fracture or normal).</p>
+                            <li class="text-black-40 fw-bold">Finger model:</li>
+                                <p>The finger model detect 2 possibilities (fracture or normal).</p>
+                            <li class="text-black-40 fw-bold">Forearm model:</li>
+                                <p>The forearm model detect 2 possibilities (fracture or normal).</p>
+                            <li class="text-black-40 fw-bold">Hand model:</li>
+                                <p>The hand model detect 2 possibilities (fracture or normal).</p>
+                            <li class="text-black-40 fw-bold">Shoulder model:</li>
+                                <p>The shoulder model detect 2 possibilities (fracture or normal).</p>
+                            <li class="text-black-40 fw-bold">Wrist model:</li>
+                                <p>The wrist model detect 2 possibilities (fracture or normal).</p>
+                            <li class="text-black-40">Additionally, the code generates a Grad-CAM heatmap to visualize the regions of the image that contribute most to the prediction.
+                            The heatmap is saved and displayed on the web page along with the prediction results.</li>   
+                        </ul>    
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
+
+
+    

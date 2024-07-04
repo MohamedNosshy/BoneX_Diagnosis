@@ -1,0 +1,68 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.navbar .container {
+    min-height: 80px;
+}
+.navbar img {
+    max-width: 50px;
+}
+.navbar .navbar-nav .nav-link.active,
+.navbar .navbar-nav .nav-link:focus,
+.navbar .navbar-nav .nav-link:hover {
+    color: #1BB6F1;
+}
+.navbar p {
+    color: #008EC5;
+}
+
+.start {
+    background-color: #88D4FF;
+    height: 100%;
+}
+.start img {
+    width: 500px;
+    height: 607px;
+}
+.start .text h3 {
+    color: white;
+}
+.start .text p {
+    color: #00107C;
+    width: 700px;
+}
+
+.content h2 {
+    color: #00107C;
+}
+.content h2::after {
+    content: "";
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 2px;
+    width: 140px;
+    background-color: #00107C;
+
+}
+.content a {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #00107C;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+}
+.content a:hover {
+    background-color: #00107C;
+    color: white;
+}
+
+.definition h1,
+.definition h4 {
+    color: #00107C;
+}

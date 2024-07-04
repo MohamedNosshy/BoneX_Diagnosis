@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">    <link rel="stylesheet" href="css/bootstrap.min.css">    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <title>Prediction Result</title>
+    <style>
+        :root {
+            --primary-color: #716f6f; 
+            --accent-color: #464645; 
+            --neutral-color: #f8f9fa; 
+        }
+
+        body {
+            background-color: var(--neutral-color);
+        }
+
+        h1, h2, h5 {
+            color: var(--primary-color);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .navbar .container {
+            min-height: 80px;
+        }
+        .navbar img {
+            max-width: 50px;
+        }
+        .navbar .navbar-nav .nav-link.active,
+        .navbar .navbar-nav .nav-link:focus,
+        .navbar .navbar-nav .nav-link:hover {
+            color: #1BB6F1;
+        }
+        .navbar p {
+            color: #008EC5;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #02B6BF 0%, #015559 75%);
+            font-weight: bold;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus,
+        .btn-primary:checked {
+            background: linear-gradient(90deg, #053237 0%, #053237 75%);
+        }
+
+        #result {
+            color: white;
+            background: linear-gradient(90deg, #02B6BF 0%, #015559 75%);
+            width: 280px;
+            font-weight: bold;
+            border-radius: 20px;
+            position: absolute;
+            left: 50%;
+            top: 70px;
+            transform: translateX(-50%);
+            font-size: 35px;
+        }
+        .result {
+            font-size: 24px;
+            
+        }
+        .card-title {
+            color: #00ADEF;
+        }
+        #upload-message {
+            position: absolute;
+            background: linear-gradient(90deg, #02B6BF 0%, #015559 75%);
+            color: white;
+            padding: 25px 35px;
+            text-align: center;
+            left: 50%;
+            top: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            width: 80%;
+            max-width: 480px;
+            display: none;
+        }
+        @media(max-width: 991px)  {
+            #upload-message {
+                top: 70%;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand d-flex" href="#">
+                <img class="pe-2" src="{{ url_for('static', filename='images/logo.png') }}" alt="">
+                <p class="mt-2 fw-bold" >BoneX Diagnosis</p>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main" aria-controls="main" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="main">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-bold fs-5">
+                    <li class="nav-item">
+                        <a class="p-2 p-lg-3 nav-link" aria-current="page" href="{{ url_for('index') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="p-2 p-lg-3 nav-link" href="{{ url_for('form') }}">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="p-2 p-lg-3 nav-link" href="{{ url_for('information') }}">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4 p-2 text-center fw-bold" id="result">The Result</h1>
+        <p class="result mt-4 font-weight-bold text-center" id="disease">{{ disease }}</p>
+        
+        <div class="row">
+            <div class="mb-4 text-end pt-4 d-flex justify-content-end">
+                <button type="button" class="btn btn-primary me-5" id="gradcam-button">GradCAM</button>
+                <button type="button" class="btn btn-primary" id="gradcampp-button">GradCAM++</button>
+            </div>
+            
+            <div class="col-md-6">
+              <img src="{{ url_for('upload_img', filename=file_name) }}" alt="Uploaded Image" class="img-fluid rounded" id="gradcam-image">
+            </div>
+            <div class="col-md-6">
+              <div id="heatmap-container">
+                <img src="{{ url_for('upload_img', filename=heatmap_file) }}" alt="Heatmap" class="img-fluid rounded" id="heatmap-image">
+              </div>
+            </div>
+          </div>
+        
+        
+        <div class="card mt-4" id="definition-section">
+            <div class="card-body">
+                <h5 class="card-title">Definition: </h5>
+                <ul>
+                    <li class="card-text"> {{ definition }}</li>
+                </ul>
+            </div>
+            
+        </div>  
+        
+        <div class="card mt-4" id="causes-section">
+            <div class="card-body">
+                <h5 class="card-title">Causes:</h5>
+                <ul>
+                    <li class="card-text">{{ cause1 }}</li>
+                    <li class="card-text">{{ cause2 }}</li>
+                    <li class="card-text">{{ cause3 }}</li>
+                    <li class="card-text">{{ cause4 }}</li>
+
+                </ul>   
+            </div>
+        </div>  
+        
+        <div class="card mt-4" id="symptoms-section">
+            <div class="card-body">
+                <h5 class="card-title">Symptoms:</h5>
+                <ul>
+                    <li class="card-text">{{ symptom1 }}</li>
+                    <li class="card-text">{{ symptom2 }}</li>
+                    <li class="card-text">{{ symptom3 }}</li>
+                    <li class="card-text">{{ symptom4 }}</li>
+                    <li class="card-text">{{ symptom5 }}</li>
+                    <li class="card-text">{{ symptom6 }}</li>
+
+                </ul>
+            </div>
+        </div>  
+        
+        <div class="card mt-4" id="treatments-section">
+            <div class="card-body">
+                <h5 class="card-title">Treatments:</h5>
+                <ul>
+                    <li class="card-text">{{ treatment1 }}</li>
+                    <li class="card-text">{{ treatment2 }}</li>
+                    <li class="card-text">{{ treatment3 }}</li>
+                    <li class="card-text">{{ treatment4 }}</li>
+                    <li class="card-text">{{ treatment5 }}</li>
+                    <li class="card-text">{{ treatment6 }}</li>
+
+                </ul>
+            </div>
+        </div>  
+        
+        <div class="card mt-4" id="complications-section">
+            <div class="card-body">
+                <h5 class="card-title">Complications:</h5>
+                <ul>
+                    <li class="card-text">{{ complication1 }}</li>
+                    <li class="card-text">{{ complication2 }}</li>
+                    <li class="card-text">{{ complication4 }}</li>
+                    <li class="card-text">{{ complication5 }}</li>
+
+                </ul>
+            </div>
+        </div>  
+        
+        <div class="card mt-4" id="advice-section">
+            <div class="card-body">
+                <h5 class="card-title">Advice:</h5>
+                <ul>
+                    <li class="card-text">{{ advice }}</li>
+                </ul>
+            </div>
+        </div>      
+        
+    </div>
+
+    <div id="upload-message" class="container text-center">
+        <p>PLEASE UPLOAD X-RAY IMAGE!!!!</p>
+    </div>
+
+    <div class="container text-center mt-5 mb-5 mx-auto">
+        <a href="{{ url_for('form') }}" class="btn btn-primary">Go back to upload</a>
+    </div>
+
+
+
+    <!-- Include Bootstrap JS and Popper.js from a CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        
+
+                // Add event listeners to the buttons
+        document.getElementById('gradcam-button').addEventListener('click', showGradCAM);
+        document.getElementById('gradcampp-button').addEventListener('click', showGradCAMPP);
+
+         // Function to show GradCAM heatmap
+         function showGradCAM() {
+            document.getElementById('heatmap-image').src = "{{ url_for('upload_img', filename=heatmap_file) }}";
+            updateButtonStyles('gradcam-button');
+        }
+
+        // Function to show GradCAM++ heatmap
+        function showGradCAMPP() {
+            document.getElementById('heatmap-image').src = "{{ url_for('upload_img', filename=heatmap_filePlus) }}";
+            updateButtonStyles('gradcampp-button');
+        }
+
+         // Function to update button styles based on selection
+         function updateButtonStyles(buttonId) {
+            var gradcamButton = document.getElementById('gradcam-button');
+            var gradcamppButton = document.getElementById('gradcampp-button');
+
+            gradcamButton.classList.remove('btn-selected');
+            gradcamppButton.classList.remove('btn-selected');
+
+            gradcamButton.classList.add(buttonId === 'gradcam-button' ? 'btn-selected' : 'btn-primary');
+            gradcamppButton.classList.add(buttonId === 'gradcampp-button' ? 'btn-selected' : 'btn-primary');
+        }
+
+    
+        // Get the disease value from your data source
+        var disease = "{{ disease }}"; 
+    
+        // Function to remove sections when the disease is "Normal"
+        function removeSectionsForNormalDisease() {
+            if (disease === "Normal") {
+                // Array of section IDs to remove
+                var sectionsToRemove = ["causes-section", "definition-section", "symptoms-section", "treatments-section", "complications-section", "advice-section"];
+    
+                // Loop through the sections and remove them
+                sectionsToRemove.forEach(function (sectionId) {
+                    var section = document.getElementById(sectionId);
+                    if (section) {
+                        section.remove();
+                    }
+                });
+            }
+        }
+
+        // Call the function to remove sections when the page loads
+        window.addEventListener("load", removeSectionsForNormalDisease);
+        
+        // Function to hide a result section if it contains "not available"
+        function hideElementIfNotAvailable(sectionId) {
+        var section = document.getElementById(sectionId);
+        if (section) {
+            var elements = section.getElementsByClassName("card-text");
+            for (var i = 0; i < elements.length; i++) {
+                var element = elements[i];
+                if (element.innerHTML.includes("not available")) {
+                    element.style.display = "none";
+                }
+            }
+        }
+    }
+
+        // Call the function for each result section
+        hideElementIfNotAvailable("definition-section");
+        hideElementIfNotAvailable("causes-section");
+        hideElementIfNotAvailable("symptoms-section");
+        hideElementIfNotAvailable("treatments-section");
+        hideElementIfNotAvailable("complications-section");
+        hideElementIfNotAvailable("advice-section");
+        
+        window.addEventListener("load", hideElementIfNotAvailable);
+
+        // Call the function to update button styles based on the selected button
+        var selectedButton = "{{ selected_button_from_server }}"; // Replace with the actual value from your server
+        updateButtonStyles(selectedButton);
+
+        // Get the x_ray value from your data source
+        var x_ray = "{{ x_ray }}";
+
+        // Function to show or hide elements based on x_ray value
+        function showOrHideElements() {
+            // Array of section IDs to hide
+            var sectionsToHide = ["definition-section", "causes-section", "symptoms-section",
+             "treatments-section", "complications-section", "advice-section","gradcam-button","gradcampp-button","disease",
+            "result","gradcam-image","heatmap-image", 
+            ];
+            var uploadMessage = document.getElementById("upload-message");
+
+            if (x_ray === "Not X-ray") {
+                // Hide all sections
+                sectionsToHide.forEach(function (sectionId) {
+                    var section = document.getElementById(sectionId);
+                    if (section) {
+                        section.style.display = "none";
+                    }
+                });
+
+                // Show the upload message
+                if (uploadMessage) {
+                    uploadMessage.style.display = "block";
+                }
+            } else {
+                // Show all sections
+                sectionsToHide.forEach(function (sectionId) {
+                    var section = document.getElementById(sectionId);
+                    if (section) {
+                        section.style.display = "block";
+                    }
+                });
+
+                // Hide the upload message
+                if (uploadMessage) {
+                    uploadMessage.style.display = "none";
+                }
+            }
+        }
+
+        // Call the function to show or hide elements when the page loads
+        window.addEventListener("load", showOrHideElements);
+
+
+    </script> 
+</body>
+</html>
+
+
+
